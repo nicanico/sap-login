@@ -58,6 +58,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleCoroutineScope
 import br.senai.sp.jandira.login_symbian.ApiService
 import br.senai.sp.jandira.login_symbian.R
 import br.senai.sp.jandira.login_symbian.RetrofitHelper
@@ -82,7 +83,7 @@ class login_screen : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
 
                 ) {
-                    LoginScreen()
+                    LoginScreen(lifecycleScope)
                 }
 
         }
@@ -91,7 +92,7 @@ class login_screen : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(lifecycleCoroutineScope: LifecycleCoroutineScope) {
 
   var userEmailState by remember {
     mutableStateOf("")
@@ -265,7 +266,7 @@ private fun uploadImage(imageUri: Uri, context: Context, emailUser: String, pass
 
                             if (firestoreTask.isSuccessful) {
 
-                                lifecycleScope.launch {
+                                lifecycleCoroutineScope.launch {
                                     val body = JsonObject().apply {
                                         addProperty("image", uri.toString())
                                         addProperty("email", emailUser)
